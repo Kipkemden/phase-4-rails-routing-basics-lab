@@ -11,5 +11,20 @@ class StudentsController < ApplicationController
     student = Student.order(grade: :desc).first
     render json: student
   end
-  
+  def lowest_grade
+    student = Student.order(grade: :desc).last
+    render json: student
+  end
+  def mean_grade
+    students = Student.all
+    total_grade = students.sum(:grade)
+    
+    if students.count > 0
+      mean = total_grade.to_f / students.count
+    else
+      mean = 0
+    end
+
+    render json: { mean_grade: mean }
+  end
 end
